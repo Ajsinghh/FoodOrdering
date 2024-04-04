@@ -1,0 +1,77 @@
+.app {
+  min-height: 100vh;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  align-items: center;
+}
+.logo {
+  width: 100px;
+  margin: 0 10px;
+}
+.nav-items ul {
+  display: flex;
+  list-style-type: none;
+  margin-right: 40px;
+}
+.nav-items ul li {
+  padding: 10px;
+}
+#woym {
+  margin: 50px 150px;
+  gap: 30px;
+}
+#header1 {
+  display: flex;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+#header1::-webkit-scrollbar {
+  display: none;
+}
+.dishes {
+  height: 200px;
+}
+.dishes img {
+  cursor: pointer;
+  width: 150px;
+}
+.underline {
+  border-bottom: 1px solid #888;
+}
+.body {
+  margin: 20px 150px;
+}
+#restaurants {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 40px;
+  margin-top: 30px;
+}
+.restcards {
+  width: 250px;
+  height: 350px;
+  cursor: pointer;
+  line-height: 15px;
+  padding: 5px;
+}
+.res-img {
+  width: 240px;
+  height: 50%;
+  border-radius: 10px;
+}
+#rating-time {
+  display: flex;
+  gap: 20px;
+  line-height: 0px;
+}
+.restcards:hover {
+  border: 1px solid black;
+}
+.filter-btn {
+  cursor: pointer;
+}
