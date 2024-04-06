@@ -19,52 +19,60 @@
 .nav-items ul li {
   padding: 10px;
 }
-#woym {
+#woym ,.shimmer-container-2{
   margin: 50px 150px;
   gap: 30px;
 }
-#header1 {
+#header1 ,.shimmer-container-2{
   display: flex;
   white-space: nowrap;
   overflow-x: scroll;
   overflow-y: hidden;
 }
-#header1::-webkit-scrollbar {
+#header1::-webkit-scrollbar,.shimmer-container-2::-webkit-scrollbar {
   display: none;
 }
 .dishes {
   height: 200px;
 }
-.dishes img {
+.dishes img ,.shimmer-cards-2{
   cursor: pointer;
   width: 150px;
+}
+.shimmer-cards-2{
+  width: 250px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #E4E4E4;
 }
 .underline {
   border-bottom: 1px solid #888;
 }
-.body {
+.body,.shimmer-container-1 {
   margin: 20px 150px;
 }
-#restaurants {
+#restaurants,
+.shimmer-container-1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 40px;
   margin-top: 30px;
 }
-.restcards {
+.restcards,
+.shimmer-cards-1 {
   width: 250px;
   height: 350px;
   cursor: pointer;
   line-height: 15px;
   padding: 5px;
 }
-.res-img {
-  width: 240px;
+.res-img,.shimmer-img-1 {
+  width: 250px;
   height: 50%;
   border-radius: 10px;
 }
-#rating-time {
+#rating-time{
   display: flex;
   gap: 20px;
   line-height: 0px;
@@ -74,4 +82,32 @@
 }
 .filter-btn {
   cursor: pointer;
+}
+
+.shimmer-cards-1 {
+  background-color: white;
+}
+.shimmer-img-1{
+  background-color: #E4E4E4;
+}
+.shimmer-name-1{
+  width: 40%;
+  height: 15px;
+  background-color: #E4E4E4;
+  margin: 10px 0;
+}
+.shimmer-rating-time-1{
+  margin: 20px 0;
+  width: 50%;
+  height: 15px;
+  background-color: #E4E4E4;
+}
+.shimmer-cuisine-1{
+  margin-bottom: 10px 0;
+  width: 80%;
+  height: 15px;
+  background-color: #E4E4E4;
+}
+.filter{
+  display: flex;
 }
