@@ -1,5 +1,7 @@
 import { CDN_URL } from "../utilities/constants";
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom"
+import Shimmer_dish from "./Shimmer_dish";
 const RestCards = ({ resObj }) => {
   const { info } = resObj;
   return (
@@ -19,29 +21,31 @@ const RestCards = ({ resObj }) => {
   );
 };
 
-const Restaurants = () => {
+const Restaurants = (jsonData) => {
   //This is the local state variable -Super powerful variable
   // It can only be changed by function(2nd argument in array) named
   console.log("Re-render");
-  const [resList, setResList] = useState([]);
-  const [filteredresList, setFilteredResList] = useState([]);
+  const [resList, setResList] = useState(jsonData?.jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  const [filteredResList, setFilteredResList] = useState(jsonData?.jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   const [searchText, setSearchText] = useState("");
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9009877&lng=80.2279301&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    console.log(json);
-    setResList(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
-    );
-    setFilteredResList(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
-    );
-  };
+  const [filterBtn, setFilterBtn] = useState("Top Rated Restaurants")
+ console.log(filteredResList);
+ console.log(resList);
+ console.log(jsonData);
+  const handleFilterBtn = ()=>{
+      if(filterBtn === "Top Rated Restaurants"){
+          const filteredList = resList.filter(
+            (rest) => {return rest.info.avgRating > 4}
+          );
+          console.log("top")
+          setFilteredResList(filteredList);
+          setFilterBtn("All Restaurants");
+      }else if(filterBtn === "All Restaurants"){
+        console.log("all")
+        setFilteredResList(resList);
+        setFilterBtn("Top Rated Restaurants")
+      }
+  }
   return (
     <div className="body">
       <div className="filter">
@@ -69,19 +73,16 @@ const Restaurants = () => {
         </div>
         <button
           className="filter-btn"
-          onClick={() => {
-            const filteredList = resList.filter(
-              (rest) => rest.info.avgRating > 4
-            );
-            setResList(filteredList);
-          }}
+          onClick={handleFilterBtn}
         >
-          Top Rated Restaurants
+          {filterBtn}
         </button>
       </div>
       <div id="restaurants">
-        {filteredresList.map((res) => (
-          <RestCards key={res.info.id} resObj={res} />
+        {filteredResList.map((res) => (
+          <Link key={res.info.id} to={"/restaurants/" + res.info.id}>
+            <RestCards resObj={res} />
+          </Link>
         ))}
       </div>
     </div>
