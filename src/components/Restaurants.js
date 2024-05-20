@@ -1,64 +1,54 @@
-import { CDN_URL } from "../utilities/constants";
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom"
-import Shimmer_dish from "./Shimmer_dish";
-const RestCards = ({ resObj }) => {
-  const { info } = resObj;
-  return (
-    <div className="restcards" style={{ backgroundColor: "#f0f0f0" }}>
-      <img
-        className="res-img"
-        alt="res-img"
-        src={CDN_URL + info.cloudinaryImageId}
-      />
-      <h3>{info.name}</h3>
-      <div id="rating-time">
-        <h3>{info.avgRating}</h3>
-        <h3>{info.sla.slaString}</h3>
-      </div>
-      <h4>{info.cuisines.join(", ")}</h4>
-    </div>
-  );
-};
+import useOnlineStatus from "../utilities/useOnlineStatus";
+import RestCards from "./RestCards";
 
 const Restaurants = (jsonData) => {
   //This is the local state variable -Super powerful variable
   // It can only be changed by function(2nd argument in array) named
-  console.log("Re-render");
+
   const [resList, setResList] = useState(jsonData?.jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   const [filteredResList, setFilteredResList] = useState(jsonData?.jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   const [searchText, setSearchText] = useState("");
   const [filterBtn, setFilterBtn] = useState("Top Rated Restaurants")
+
  console.log(filteredResList);
  console.log(resList);
  console.log(jsonData);
+
+
   const handleFilterBtn = ()=>{
       if(filterBtn === "Top Rated Restaurants"){
           const filteredList = resList.filter(
             (rest) => {return rest.info.avgRating > 4}
           );
-          console.log("top")
           setFilteredResList(filteredList);
           setFilterBtn("All Restaurants");
       }else if(filterBtn === "All Restaurants"){
-        console.log("all")
         setFilteredResList(resList);
         setFilterBtn("Top Rated Restaurants")
       }
   }
+
+
+  const onlineStatues = useOnlineStatus();
+  if(onlineStatues === false) return <h1>Brother eww!</h1>
+
   return (
-    <div className="body">
-      <div className="filter">
-        <div className="search">
+    <div className="body mx-16 ">
+      <div className="filter my-6 flex justify-between">
+
+        
+        <div className="search ">
           <input
             type="text"
-            className="search-box"
+            className="search-box border-2 border-solid "
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
           />
-          <button
+          <button className="bg-slate-300 border-black border-2 ml-4 px-2 rounded"
             onClick={() => {
               const filteredList = resList.filter((res) => {
                 return res.info.name
@@ -72,16 +62,18 @@ const Restaurants = (jsonData) => {
           </button>
         </div>
         <button
-          className="filter-btn"
+          className="filter-btn border-2 bg-slate-300 px-2 rounded-md border-black"
           onClick={handleFilterBtn}
         >
           {filterBtn}
         </button>
       </div>
-      <div id="restaurants">
+      <div className="restaurants flex flex-wrap justify-between">
         {filteredResList.map((res) => (
           <Link key={res.info.id} to={"/restaurants/" + res.info.id}>
+            {
             <RestCards resObj={res} />
+            }
           </Link>
         ))}
       </div>

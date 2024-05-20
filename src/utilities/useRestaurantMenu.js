@@ -14,10 +14,8 @@ const useRestaurantMenu = (resId)=>{
          );
          const json = await data.json();
          setResInfo(json);
-     }
-     const updateState = (newValue) =>{
-        setResInfo(newValue);
-     } 
-    return [resInfo , updateState];     
+        }
+        
+    return resInfo;     
 }
 export default useRestaurantMenu 

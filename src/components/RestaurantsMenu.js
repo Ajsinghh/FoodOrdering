@@ -2,80 +2,77 @@ import { useEffect, useState } from "react";
 import Shimmer_dish from "./Shimmer_dish";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utilities/useRestaurantMenu";
+import RestaurantsCategories from "./RestaurantsCategories";
+
 const RestaurantsMenu = () => {
-  // const [resInfo , setResInfo] = useState(null);
-  // const [filteredResInfo , setFilteredResInfo] = useState([]);
+
   const { resId } = useParams();
-  console.log(resId);
-  const [resInfo, setResInfo] = useRestaurantMenu(resId);
-  const [filteredResInfo, setFilteredResInfo] = useState([]);
-  // useEffect(()=>{
-  //     fetchMenu();
-  // },[]);
+  const resInfo = useRestaurantMenu(resId);
+  const [categories ,setCategories] = useState([]);
+  const [vegChecked, setVegChecked] = useState(false);
+  const[showIndex, setShowIndex] = useState(null);
 
-  // const fetchMenu = async ()=>{
-  //     const data =
-  //       (await fetch(MENU_API + resId +"&catalog_qa=undefined&isMenuUx4=true&submitAction=ENTER"));
-  //    const json = await data.json();
-  //    console.log(json);
-  //    setResInfo(json?.data);
-  //    setFilteredResInfo(json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card.card.itemCards);
-  // }
-  useEffect(() => {
+  useEffect(()=>{
     if (resInfo !== null) {
-      setFilteredResInfo(
-        resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]
-          .card.card.itemCards
-      );
+       const temp =  resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c) => {
+        return (
+          c?.card?.card?.["@type"] ===
+          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+        );
+      }
+      );  
+      setCategories(temp);
     }
-  }, []);
-  console.log(resInfo);
+  },[resInfo])
 
-  if (!filteredResInfo || filteredResInfo.length === 0) return <Shimmer_dish />;
+  if (categories.length === 0) return <Shimmer_dish />;
+
 
   const { id, name, city, cuisines, cost } =
     resInfo?.data?.cards[2]?.card?.card?.info;
   const { itemCards } =
-    resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card
-      .card;
+    resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+
 
   const handleCheckboxChange = (event) => {
     const isChecked = event.target.checked;
-    if (isChecked) {
-      const filteredList = itemCards.filter(
-        (item) => item.card.info.isVeg === 1
-      );
-      setFilteredResInfo(filteredList || []);
+    if (isChecked) {      
+      setVegChecked(true);
     } else {
-      setFilteredResInfo(
-        resInfo.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2].card.card
-          .itemCards || []
-      );
+      setVegChecked(false);
     }
   };
-console.log("hey");
+  
+
+console.log(categories)
   return (
-    <div className="restaurants-menu">
-      <h1>{name}</h1>
-      <p>
-        {cuisines.join(", ")} - {cost}
-      </p>
-      <h1>Menu</h1>
-      <label className="toggle-switch">
-        <input type="checkbox" onChange={handleCheckboxChange} />
-        <span className="slider"></span>
-      </label>
-      <span className="toggle-feature">Only Veg</span>
-      <ul>
-        {filteredResInfo.map((items) => (
-          <li key={items.card.info.id}>
-            {items.card.info.name} -{" Rs."}
-            {items.card.info.defaultPrice
-              ? items.card.info.defaultPrice / 100
-              : items.card.info.price / 100}
-          </li>
-        ))}
-      </ul>
+    <div className="restaurants-menu flex flex-col items-start justify-start  border m-8">
+      <div className="flex justify-center border w-full py-4 bg-slate-50">
+        <h1 className="text-xl text-center font-bold">{name}</h1>
+      </div>
+      <div className="flex gap-24 w-full">
+        <p>
+          Cuisines:-
+          {cuisines.join(", ")}
+        </p>
+        <div>
+          <label className="toggle-switch">
+            <input type="checkbox" onChange={handleCheckboxChange} />
+            <span className="slider"></span>
+          </label>
+          <span className="toggle-feature">Only Veg</span>
+        </div>
+      </div>
+      <div className="w-full">
+        {categories.map((c , index) => {
+          return <RestaurantsCategories 
+          key={index} 
+          c={c} 
+          vegChecked={vegChecked} 
+          expanded={index === showIndex ? true : false}
+          setShowIndex = {(expanded) => expanded ? setShowIndex(null) : setShowIndex(index)}/>;
+        })}
+      </div>
     </div>
   );
 };
