@@ -4,6 +4,7 @@ const RestCards = ({ resObj }) => {
   const { info } = resObj;
   return (
     <div
+      data-testid="restCard"
       className="restcards py-2 flex flex-col items-center w-64 h-96 mb-10"
       style={{ backgroundColor: "#f0f0f0" }}
     >

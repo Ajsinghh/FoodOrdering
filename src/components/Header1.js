@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Dishes = ({ dishObj }) => {
   const { imageId } = dishObj;
   return (
-      <img src={CDN_URL + imageId} className="w-40 h-auto " />  
+      <img src={CDN_URL + imageId} className="h-auto " />  
   );
 };
 const Header1 = ({jsonData}) => {
