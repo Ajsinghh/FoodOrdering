@@ -4,7 +4,6 @@ const useOnlineStatus = ()=>{
    const[onlineStatus , setOnlineStatus] = useState(true)
 
    useEffect(()=>{
-    console.log("called")
     window.addEventListener("offline" , ()=>{
         setOnlineStatus(false);
     })

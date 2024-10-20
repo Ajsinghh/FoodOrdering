@@ -9,7 +9,6 @@ const ItemList = ({ vegFilter }) => {
     const handleAddItem= (item) => {
        dispatch(addItem(item));
     }
-    console.log(vegFilter);
   return (
     <div>
       {vegFilter.map((d,index) => {return (

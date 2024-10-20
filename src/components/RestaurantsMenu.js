@@ -44,7 +44,6 @@ const RestaurantsMenu = () => {
   };
   
 
-console.log(categories)
   return (
     <div className="restaurants-menu flex flex-col items-start justify-start  border m-8">
       <div className="flex justify-center border w-full py-4 bg-slate-50">

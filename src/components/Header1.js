@@ -11,7 +11,6 @@ const Dishes = ({ dishObj }) => {
 const Header1 = ({jsonData}) => {
 
   const [allDishes , setAllDishes] = useState(jsonData.data.cards[0].card.card.imageGridCards.info)
-  console.log(allDishes);
   return (
     <div className="  flex justify-normal    overflow-x-scroll scroll-smooth">
       {/* <Dishes dishObj={dishList[0]} />

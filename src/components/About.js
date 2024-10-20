@@ -20,7 +20,6 @@ class About extends Component {
     this.setState({
       userInfo: json,
     })
-    console.log(json);
   }
 
   render(){

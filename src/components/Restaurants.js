@@ -12,9 +12,6 @@ const Restaurants = (jsonData) => {
   const [searchText, setSearchText] = useState("");
   const [filterBtn, setFilterBtn] = useState("Top Rated Restaurants")
 
- console.log(filteredResList);
- console.log(resList);
- console.log(jsonData);
 
 
   const handleFilterBtn = ()=>{
